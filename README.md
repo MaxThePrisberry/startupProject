@@ -2,12 +2,9 @@
 
 This is a personal startup project made as a part of CS 260 with Professor Jensen.
 
----
 
 
 ## Deliverable
-
----
 
 ### Elevator Pitch
 
@@ -46,7 +43,5 @@ This is how the network will manage the gamestate and interaction on the game pa
 * **React** - Application ported to use the React framework.
 
 ## HTML Deliverable
-
----
 
 
