@@ -51,4 +51,5 @@ For this deliverable I created the structure of my website using HTML.
 * **Image** - The image that represents myself is displayed on the play.html page.
 * **Login** - Input boxes and an encapsulating form have been placed on the signin.html page so that users can log in.
 * **WebSocket** - A text box has been placed in the play.html page that will be updated in real time with other player's results.
+* **Database** - Leaderboards.html includes a table where the MongoDB leaderboard information will be placed.
 
