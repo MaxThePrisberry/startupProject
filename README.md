@@ -44,4 +44,11 @@ This is how the network will manage the gamestate and interaction on the game pa
 
 ## HTML Deliverable
 
+For this deliverable I created the structure of my website using HTML.
+* **Four Pages** - I created four separate html pages that represent a home page, a login page, a signin page, and the page you play chess on.
+* **Text** - I have placed text or text placeholders where necessary for the implementation of live notifications (WebSocket) and my online persona speaking.
+* **Links** - Each page has a link to each of the others for accesibility, all accessed through a navigation bar.
+* **Image** - The image that represents myself is displayed on the play.html page.
+* **Login** - Input boxes and an encapsulating form have been placed on the signin.html page so that users can log in.
+* **WebSocket** - A text box has been placed in the play.html page that will be updated in real time with other player's results.
 
