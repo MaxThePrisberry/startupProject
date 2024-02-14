@@ -53,3 +53,14 @@ For this deliverable I created the structure of my website using HTML.
 * **WebSocket** - A text box has been placed in the play.html page that will be updated in real time with other player's results.
 * **Database** - Leaderboards.html includes a table where the MongoDB leaderboard information will be placed.
 
+## CSS Deliverable
+
+For this deliverable I designed the appearance of my website using CSS and the Bootstrap framework.
+* **General Structure** - Properly styled CSS header, footer, and main content body - *done* - Header and footer are adaptable to window size and effectively display links.
+* **Navigation** - Properly styled CSS navigation elements - *done* - All navigation elements are organized and prominently displayed.
+* **Resizing** - Responsive to window resizing - *done* - Site elements resize, especially play.html to adjust for the size of the chess board. Different screen sizes are accounted for with Bootstrap.
+* **Application Elements** - Properly styled CSS application elements - *done* - The chess board uses css (and a lil JavaScript) to calculate the proper size for screen height and width. Bootstrap columns are effectively used for content display and adjustability.
+* **Application Content** - Properly styled CSS application text content - *done* - The site uses a cool font and text is placed correctly for dialogue from 'me' and WebSocket notifications.
+* **Application Images** - Properly styled CSS application images - *done* - Logo and the representation of me use CSS to regulate size and appearance, including a colorful border to view while playing.
+
+
