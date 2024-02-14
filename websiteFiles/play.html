@@ -67,11 +67,11 @@
 	<script type="text/javascript" src="js/chessboard-1.0.0.js"></script>
 	<script type="text/javascript">
 		var board = Chessboard('board1', 'start');
-		window.onresize = function() {
+		window.onresize = function() {if(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) > 600) {
 					let parentBox = document.getElementById('mainContent');
                                         parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
                                         board.resize();
-				}
+				}}
 		window.onload = function() {
 					let parentBox = document.getElementById('mainContent');
                                         parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
