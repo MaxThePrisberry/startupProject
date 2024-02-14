@@ -20,8 +20,34 @@
 			width: 100%;
 			height: 100%;
 		}
-		@media {
+		#txtBubble {
+			// layout
+			position: relative;
+			max-width: 30em;
 			
+			// looks
+			background-color: #fff;
+			padding: 1.125em 1.5em;
+			font-size: 1.25em;
+			border-radius: 1rem;
+			box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+		}
+		#txtBubble::before {
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			bottom: 100%;
+			left: 1.5em; // offset should move with padding of parent
+			border: .75rem solid transparent;
+			border-top: none;
+			border-bottom-color: #fff;
+			filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+		}
+		#myphoto {
+			border: solid 5px transparent;
+			border-radius: 3px;
+			background: linear-gradient(var(--bs-gray-400),var(--bs-orange)) padding-box border-box;
 		}
 	</style>
 
@@ -43,22 +69,21 @@
 
       <div class="col-md-3 text-end px-2">
         <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Register</button>
       </div>
     </header>
     <main class="container min-vw-100 h-100 px-2 mx-0 overflow-hidden">
 		<div class="row mh-100 h-100">
-			<div id="notifBox" class="col-sm-0 col-lg-2">
+			<div id="notifBox" class="d-none d-lg-inline col-sm-0 col-lg-2 col-xl-3">
 				<p>Notifications come in here.</p>
 			</div>
-			<div id="mainContent" class="h-100 d-flex flex-column align-items-center justify-content-start col-sm-12 col-lg-8">
-				<p id='timer'>0d 0h 0m 0s</p>
+			<div id="mainContent" class="h-100 d-flex flex-column align-items-center justify-content-start col-sm-12 col-lg-8 col-xl-6">
+				<h3 id='timer'>0d 0h 0m 0s</h3>
 				<!--<div id="board1" style="width: calc(100% * 0.8);"></div>-->
 				<div id="board1" style="width: var(--board-height);"></div>
 			</div>
-			<div id="commentBox" class="col-sm-0 col-lg-2">
-				<img src="me.jpeg" style="height: 200px;">
-				<p><span>My comments</span></p>
+			<div id="commentBox" class="d-none d-lg-inline float-end col-sm-0 col-lg-2 col-xl-3">
+				<img id="myphoto" src="me.jpeg" style="height: 200px;" class="float-end m-3"><br>
+				<p id="txtBubble" class="float-end m-3">My comments are delightfully delectable.</p>
 			</div>
 		</div>
     </main>
