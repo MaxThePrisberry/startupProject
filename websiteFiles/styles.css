@@ -1,8 +1,77 @@
+:root {
+  --bs-primary: #fd7e14; /* Bootstrap orange color */
+  --bs-link-color: #e36802;
+  --bs-link-hover-color: #b15102;
+  --bs-btn-color: #e36802;
+  --bs-btn-border-color: #e36802;
+  --bs-btn-hover-bg: #e36802;
+  --bs-btn-hover-border-color: #e36802;
+
+}
 * {
   font-family: "Inria Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
+.btn {
+	color: #e36802;
+	border-color: #e36802;
+}
+.btn:hover {
+	background-color: #e36802;
+	border-color: #e36802;
+}
+
+.menuBtn {
+	color: black;
+	border-color: black;
+}
+.menuBtn:hover {
+	background-color: transparent;
+	border-color: black;
+}
+
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+#txtBubble {
+	// layout
+	position: relative;
+	max-width: 30em;
+
+	// looks
+	background-color: #fff;
+	padding: 1.125em 1.5em;
+	font-size: 1.25em;
+	border-radius: 1rem;
+	box-shadow:     0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+}
+#txtBubble::before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	bottom: 100%;
+	left: 1.5em; // offset should move with padding of parent
+	border: .75rem solid transparent;
+	border-top: none;
+	border-bottom-color: #fff;
+	filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}
+#myphoto {
+	border: solid 5px transparent;
+	border-radius: 3px;
+	background: linear-gradient(var(--bs-gray-400),var(--bs-orange)) padding-box border-box;
+}
+.coloredBox {
+	border: 2px solid var(--bs-gray-400);
+	border-radius: 5px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	background-image: linear-gradient(135deg, var(--bs-gray-200), var(--bs-orange));
+}
+
 .inria-sans-light {
   font-family: "Inria Sans", sans-serif;
   font-weight: 300;
