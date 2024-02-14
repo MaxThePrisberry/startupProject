@@ -25,10 +25,10 @@
 .menuBtn {
 	color: black;
 	border-color: black;
-	background-color: white;
+	background-color: transparent;
 }
 .menuBtn:hover {
-	background-color: transparent;
+	background-color: var(--bs-gray-100);
 	border-color: black;
 }
 
