@@ -1,5 +1,5 @@
 :root {
-  --bs-primary: #fd7e14; /* Bootstrap orange color */
+  --bs-primary: #fd7e14;
   --bs-link-color: #e36802;
   --bs-link-hover-color: #b15102;
   --bs-btn-color: #e36802;
@@ -25,6 +25,7 @@
 .menuBtn {
 	color: black;
 	border-color: black;
+	background-color: white;
 }
 .menuBtn:hover {
 	background-color: transparent;
@@ -66,10 +67,16 @@ html, body {
 	background: linear-gradient(var(--bs-gray-400),var(--bs-orange)) padding-box border-box;
 }
 .coloredBox {
+	padding: 10px;
 	border: 2px solid var(--bs-gray-400);
 	border-radius: 5px;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 	background-image: linear-gradient(135deg, var(--bs-gray-200), var(--bs-orange));
+}
+
+input[type="checkbox"]:checked {
+  background-color: #FFA500;
+  border-color: #FFA500;
 }
 
 .inria-sans-light {
