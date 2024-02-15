@@ -65,18 +65,7 @@
   </footer>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript" src="js/chessboard-1.0.0.js"></script>
-	<script type="text/javascript">
-		var board = Chessboard('board1', 'start');
-		window.onresize = function() {if(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) > 600) {
-					let parentBox = document.getElementById('mainContent');
-                                        parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
-                                        board.resize();
-				}}
-		window.onload = function() {
-					let parentBox = document.getElementById('mainContent');
-                                        parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
-					board.resize();
-				}
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script type="text/javascript" src="play.js"></script>
 </body>
 </html>
