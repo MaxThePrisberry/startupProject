@@ -9,9 +9,36 @@ function onDragStart(source, piece, curPos, orientation) {
 	if (piece.search(/^b/) != -1) {return false;}
 }
 function onDrop(source, target, piece, newPos, oldPos, orientation) {
-		
+	let move = game.move({
+		from: source,
+		to: target,
+		promotion: 'q'
+	});
+
+	if (move === null) {return 'snapback'}
+
+	updatePage();
+
+	setTimeout(testBlackRandomMove, 500);
 }
-//function 
+function onSnapEnd(source, target, piece) {
+	board.position(game.fen());
+}
+
+
+function updatePage() {
+	
+}
+
+function testBlackRandomMove() {	
+	if (game.turn() == 'b' && !game.isGameOver) {
+		let rndIndex = Math.floor(Math.random() * game.moves().length);
+		console.log(rndIndex);
+		game.move(game.moves()[rndIndex]);
+	}
+	board.position(game.fen());
+	updatePage();
+}
 
 
 let config = {
@@ -20,8 +47,8 @@ let config = {
 	showNotation: false,
 	showErrors: 'alert',
 	onDragStart: onDragStart,
-	onDrop: onDrop
-//	onSnapEnd: onSnapEnd
+	onDrop: onDrop,
+	onSnapEnd: onSnapEnd
 }
 let board = Chessboard('board1', config);
 window.onresize = function() {
