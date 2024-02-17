@@ -33,7 +33,7 @@ function updatePage() {
 
 async function maxwellMove() {
 	$speechBox.text('Hmm...');
-//	statusCircle.classList.remove("breathing");
+	statusCircle.classList.remove("breathing");
 	statusCircle.classList.add("spinner-border");
 	const response = await fetch('https://apiproject.msimul.click/api/fish?fen=' + game.fen());
 	const data = await response.json();
@@ -42,6 +42,8 @@ async function maxwellMove() {
 	let move = game.move(data.ans, { sloppy: true });
 	if (move === null) {console.log("Thinks its invalid");}
 	board.position(game.fen());
+	statusCircle.classList.remove("spinner-border");
+        statusCircle.classList.add("breathing");
 	$speechBox.text('No longer thinking. Just moving.');
 }
 
