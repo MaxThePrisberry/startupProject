@@ -1,7 +1,8 @@
 let game = new Chess();
 console.log(game.moves());
 
-let $speechBox = $('txtBubble');
+let $speechBox = $('#txtBubble');
+let statusCircle = document.getElementById('spinner');
 
 function onDragStart(source, piece, curPos, orientation) {
 	console.log(source, piece, curPos, orientation);
@@ -16,10 +17,10 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 	});
 
 	if (move === null) {return 'snapback'}
-
+	console.log(source, target);
 	updatePage();
 
-	setTimeout(testBlackRandomMove, 500);
+	maxwellMove();
 }
 function onSnapEnd(source, target, piece) {
 	board.position(game.fen());
@@ -28,6 +29,20 @@ function onSnapEnd(source, target, piece) {
 
 function updatePage() {
 	
+}
+
+async function maxwellMove() {
+	$speechBox.text('Hmm...');
+//	statusCircle.classList.remove("breathing");
+	statusCircle.classList.add("spinner-border");
+	const response = await fetch('https://apiproject.msimul.click/api/fish?fen=' + game.fen());
+	const data = await response.json();
+	console.log(data);
+	console.log(data.ans);
+	let move = game.move(data.ans, { sloppy: true });
+	if (move === null) {console.log("Thinks its invalid");}
+	board.position(game.fen());
+	$speechBox.text('No longer thinking. Just moving.');
 }
 
 function testBlackRandomMove() {	

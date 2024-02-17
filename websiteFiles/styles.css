@@ -1,18 +1,40 @@
 :root {
   --bs-primary: #fd7e14;
+  --bs-primary-rgb: 245,113,2;
   --bs-link-color: #e36802;
   --bs-link-hover-color: #b15102;
   --bs-btn-color: #e36802;
   --bs-btn-border-color: #e36802;
   --bs-btn-hover-bg: #e36802;
   --bs-btn-hover-border-color: #e36802;
-
 }
+
+@keyframes breathing {
+	0% {
+		transform: scale(0.9);
+	}
+	25% {
+		transform: scale(1);
+	}
+	60% {
+		transform: scale(0.9);
+	}
+	100% {
+		transform: scale(0.9);
+	}
+}
+
+
 * {
   font-family: "Inria Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
+
+.breathing {
+	animation: breathing 5s ease-out infinite normal;
+}
+
 .btn {
 	color: #e36802;
 	border-color: #e36802;
