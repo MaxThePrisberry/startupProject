@@ -50,7 +50,7 @@ function endgameCheck() {
 	if (game.in_checkmate()) {
 		alert("Checkmate!");
 		//Add win to database
-		localStorage.setItem('victory', [new Date(), localStorage.getItem('username'), new Date() - startTime]);
+		if (game.turn() == 'b') {localStorage.setItem('victory', [new Date(), localStorage.getItem('username'), new Date() - startTime]);}
 	} else if (game.in_draw()) {
 		
 	} else if (game.in_stalemate()) {
