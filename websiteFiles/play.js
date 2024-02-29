@@ -36,7 +36,6 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 
 	if (move === null) {return 'snapback'}
 	console.log(source, target);
-	updatePage();
 	
 	if (endgameCheck()) {return;}
 
@@ -46,16 +45,14 @@ function onSnapEnd(source, target, piece) {
 	board.position(game.fen());
 }
 
-function updatePage() {
-	
-}
-
 function endgameCheck() {
 	let gameover = game.game_over();
 	if (game.in_checkmate()) {
-
+		alert("Checkmate!");
+		//Add win to database
+		localStorage.setItem('victory', [new Date(), localStorage.getItem('username'), new Date() - startTime]);
 	} else if (game.in_draw()) {
-
+		
 	} else if (game.in_stalemate()) {
 
 	} else if (game.in_threefold_repetition()) {
@@ -63,6 +60,7 @@ function endgameCheck() {
 	} else if (game.insufficient_material()) {
 
 	}
+	return gameover;
 }
 
 function updateTimer() {
@@ -97,16 +95,6 @@ async function maxwellMove() {
 	statusCircle.classList.remove("spinner-border");
         statusCircle.classList.add("breathing");
 	$speechBox.text('No longer thinking. Just moving.');
-}
-
-function testBlackRandomMove() {	
-	if (game.turn() == 'b' && !game.isGameOver) {
-		let rndIndex = Math.floor(Math.random() * game.moves().length);
-		console.log(rndIndex);
-		game.move(game.moves()[rndIndex]);
-	}
-	board.position(game.fen());
-	updatePage();
 }
 
 function notificationSimulation() {
