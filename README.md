@@ -63,4 +63,10 @@ For this deliverable I designed the appearance of my website using CSS and the B
 * **Application Content** - Properly styled CSS application text content - *done* - The site uses a cool font and text is placed correctly for dialogue from 'me' and WebSocket notifications.
 * **Application Images** - Properly styled CSS application images - *done* - Logo and the representation of me use CSS to regulate size and appearance, including a colorful border to view while playing.
 
+## Javascript Deliverable
 
+For this deliverable I enabled functionality of my website through design of my own chess API using stockfish and basic javascript
+* **Login functionality** - Javascript support for future login - *done* - Login information is cached when the user desires it to be, and is displayed throughout the site.
+* **Database functionality** - Javascript support for future database data - *done* - Adaptable javascript dynamically generates simulated database data. Successful game wins are 'added' to database.
+* **WebSocket functionality** - Javascript support for future WebSocket - *done* - New text is generated every 2 seconds to simulate games being finished elsewhere and the user notified via WebSocket.
+* **Basic Interaction Logic** - Javascript support for your application's interaction logic - *done* - Chess board uses javascript to make intelligent moves that are *not* random. It tracks board state and and endgame conditions. JSON interaction makes data about the gamestate possible from the API, including a game evaluation score that can be used in the future.
