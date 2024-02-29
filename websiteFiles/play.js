@@ -26,7 +26,6 @@ function onSnapEnd(source, target, piece) {
 	board.position(game.fen());
 }
 
-
 function updatePage() {
 	
 }
@@ -57,6 +56,14 @@ function testBlackRandomMove() {
 	updatePage();
 }
 
+function notificationSimulation() {
+	const notifBox = document.getElementById('notifBox');
+
+	notifBox.innerHTML = '<div class="d-flex flex-row justify-content-start m-2"><div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(0, 0, 0,.2);"><p class="small mb-0">Testing text to have overflow.</p></div></div>' + notifBox.innerHTML;
+
+}
+
+setInterval(notificationSimulation, 2000);
 
 let config = {
 	position: 'start',
@@ -71,12 +78,12 @@ let board = Chessboard('board1', config);
 window.onresize = function() {
 	if(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) > 600) {
 		let parentBox = document.getElementById('mainContent');
-		parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
+		parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
 		board.resize();
 	}
 }
 window.onload = function() {
 	let parentBox = document.getElementById('mainContent');
-	parentBox.style.setProperty('--board-height', (parentBox.clientHeight - document.getElementById('timer').clientHeight - 26) + 'px');
+	parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
 	board.resize();
 }
