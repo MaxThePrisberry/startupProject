@@ -4,6 +4,9 @@ console.log(game.moves());
 let $speechBox = $('#txtBubble');
 let statusCircle = document.getElementById('spinner');
 
+let startTime = new Date();
+let gameStarted = false;
+
 function initialize() {
         if (localStorage.getItem('username')) {
                 document.getElementById('usernameSlot').innerText = localStorage.getItem('username');
@@ -21,6 +24,7 @@ function signinButtonClick() {
 function onDragStart(source, piece, curPos, orientation) {
 	console.log(source, piece, curPos, orientation);
 	console.log(piece.search(/^b/));
+	if (!gameStarted) {gameStarted = true; startTime = new Date(); setInterval(updateTimer, 1000);}
 	if (piece.search(/^b/) != -1) {return false;}
 }
 function onDrop(source, target, piece, newPos, oldPos, orientation) {
@@ -33,6 +37,8 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 	if (move === null) {return 'snapback'}
 	console.log(source, target);
 	updatePage();
+	
+	if (endgameCheck()) {return;}
 
 	maxwellMove();
 }
@@ -42,6 +48,38 @@ function onSnapEnd(source, target, piece) {
 
 function updatePage() {
 	
+}
+
+function endgameCheck() {
+	let gameover = game.game_over();
+	if (game.in_checkmate()) {
+
+	} else if (game.in_draw()) {
+
+	} else if (game.in_stalemate()) {
+
+	} else if (game.in_threefold_repetition()) {
+
+	} else if (game.insufficient_material()) {
+
+	}
+}
+
+function updateTimer() {
+	let now = new Date();
+	now = now - startTime;
+	document.getElementById('timer').innerText = formatMilliseconds(now);
+}
+
+function formatMilliseconds(milliseconds) {
+	let seconds = Math.floor(milliseconds / 1000);
+	let minutes = Math.floor(seconds / 60);
+	let hours = Math.floor(minutes / 60);
+	let days = Math.floor(hours / 24);
+	hours %= 24;
+	minutes %= 60;
+	seconds %= 60;
+	return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
 }
 
 async function maxwellMove() {
@@ -55,6 +93,7 @@ async function maxwellMove() {
 	let move = game.move(data.ans, { sloppy: true });
 	if (move === null) {console.log("Thinks its invalid");}
 	board.position(game.fen());
+	endgameCheck();
 	statusCircle.classList.remove("spinner-border");
         statusCircle.classList.add("breathing");
 	$speechBox.text('No longer thinking. Just moving.');
