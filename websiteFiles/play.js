@@ -4,6 +4,20 @@ console.log(game.moves());
 let $speechBox = $('#txtBubble');
 let statusCircle = document.getElementById('spinner');
 
+function initialize() {
+        if (localStorage.getItem('username')) {
+                document.getElementById('usernameSlot').innerText = localStorage.getItem('username');
+                document.getElementById('signinButton').innerText = "Sign Out";
+        }
+}
+
+function signinButtonClick() {
+        if (localStorage.getItem('username')) {
+                localStorage.clear();
+        }
+        window.location.href = "signin.html";
+}
+
 function onDragStart(source, piece, curPos, orientation) {
 	console.log(source, piece, curPos, orientation);
 	console.log(piece.search(/^b/));
