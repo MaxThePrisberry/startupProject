@@ -70,3 +70,11 @@ For this deliverable I enabled functionality of my website through design of my 
 * **Database functionality** - Javascript support for future database data - *done* - Adaptable javascript dynamically generates simulated database data. Successful game wins are 'added' to database.
 * **WebSocket functionality** - Javascript support for future WebSocket - *done* - New text is generated every 2 seconds to simulate games being finished elsewhere and the user notified via WebSocket.
 * **Basic Interaction Logic** - Javascript support for your application's interaction logic - *done* - Chess board uses javascript to make intelligent moves that are *not* random. It tracks board state and and endgame conditions. JSON interaction makes data about the gamestate possible from the API, including a game evaluation score that can be used in the future.
+
+## Service Deliverable
+**I spoke with Professor Jensen - I previously developed the API for the Javascript deliverable and made it available at apiproject.msimul.click/api/fish?fen=...**
+* **Create an HTTP Service** - Create an HTTP service using Node.js and Express - *done* - My service is initialized correctly and is available at startup.msimul.click.
+* **Frontend Service** - Frontend served up using Express static middleware - *done* - My frontend static files are served up correctly with ExpressJS.
+* **Frontend Third-party Interaction** - My frontend calls a third-party service endpoint 'icanhazdadjoke.com' to have my simulation say a dad joke after each successful move.
+* **Backend Service Endpoints** - My backend provides service endpoints - *done* - My backend provides the '/api/fish' endpoint to interact with the customized stockfish engine to play moves at 'my' level.
+* **Frontend/Backend Interaction** - My frontend calls my service endpoints - *done* - My frontend properly interacts with my backend endpoint to play the received move from the engine.
