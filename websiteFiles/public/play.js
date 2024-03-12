@@ -84,8 +84,8 @@ async function maxwellMove() {
 	$speechBox.text('Hmm...');
 	statusCircle.classList.remove("breathing");
 	statusCircle.classList.add("spinner-border");
-	const response = await fetch('https://apiproject.msimul.click/api/fish?fen=' + game.fen());
-	const data = await response.json();
+	let response = await fetch('/api/fish?fen=' + game.fen());
+	let data = await response.json();
 	console.log(data);
 	console.log(data.ans);
 	let move = game.move(data.ans, { sloppy: true });
@@ -94,7 +94,9 @@ async function maxwellMove() {
 	endgameCheck();
 	statusCircle.classList.remove("spinner-border");
         statusCircle.classList.add("breathing");
-	$speechBox.text('No longer thinking. Just moving.');
+	response = await fetch('https://icanhazdadjoke.com/', {headers: {Accept:"application/json"}});
+	data = await response.json();
+	$speechBox.text(data.joke);
 }
 
 function notificationSimulation() {

@@ -3,18 +3,33 @@ console.log("Starting boot...");
 
 const express = require('express');
 const app = express();
-const port = 5000;
+const port = 4000;
 
 const { spawn } = require('child_process');
-const stockfishProcess = spawn('/home/ubuntu/services/apiproject/stockfish-ubuntu-x86-64');
+const stockfishProcess = spawn('/home/ubuntu/services/startup/stockfish-ubuntu-x86-64');
+
+// Listen for the 'spawn' event to check if the child process was successfully spawned
+stockfishProcess.on('spawn', () => {
+    console.log('Stockfish process spawned successfully');
+});
+
+// Error handling for the child process
+stockfishProcess.on('error', (err) => {
+    console.error('Failed to spawn Stockfish process:', err);
+});
+
+stockfishProcess.on('exit', (code, signal) => {
+    console.log(`Child process exited with code ${code} and signal ${signal}`);
+});
+
+console.log("Added event handlers");
 
 let output = "";
 let ready = false;
 
-
-
 function waitForOutput(process, expectedOutput) {
     return new Promise((resolve, reject) => {
+	    console.log("Inside promise");
         process.stdout.on('data', (data) => {
             output = data.toString();
             console.log("Output: " + output);
@@ -48,19 +63,22 @@ waitForOutput(stockfishProcess, 'uciok')
 
 
 // Serving static files (HTML, CSS, JS)
-app.use(express.static('apiproject/public'));
+app.use(express.static('startup/public'));
 
 app.get('/api/fish', (req, res) => {
     console.log(ready);
-    if (ready) {
+    if (!req.query.fen) {
+	    res.status(400).send("No move given.");
+    } else if (ready) {
         const fen = req.query.fen;
         stockfishProcess.stdin.write('ucinewgame\n');
         stockfishProcess.stdin.write('position fen ' + fen + '\n');
         stockfishProcess.stdin.write('go depth 20\n');
-
-        // Wait for output until ready
+        
+	// Wait for output until ready
         waitForOutput(stockfishProcess, 'bestmove')
             .then(() => {
+		    console.log("Found best move.");
                 // Assuming you want the last line of the output
                 const ans = output.trim().split('\n').pop().split(' ')[1];
 		    output = "";
