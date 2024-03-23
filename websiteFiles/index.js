@@ -1,22 +1,8 @@
 // server.js
 console.log("Starting boot...");
 
-const dbinfo = require('./dbConfig.json');
-const { MongoClient } = require('mongodb');
-const client = new MongoClient(`mongodb+srv://${dbinfo.username}:${dbinfo.password}@${dbinfo.hostname}/?retryWrites=true&w=majority&appName=Cluster0`);
-const db = client.db(dbinfo.database);
-
-async function testConnection() {
-	await client.connect();
-	console.log("Connected to msimul MongoDB database");
-}
-
-try {
-	testConnection();
-} catch(ex) {
-	console.log(`Unable to connect to database because ${ex}`);
-}
-
+const db = require('./database.js');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
@@ -79,8 +65,10 @@ waitForOutput(stockfishProcess, 'uciok')
     });
 
 
+app.use(cookieParser());
 // Serving static files (HTML, CSS, JS)
 app.use(express.static('startup/public'));
+app.use(express.json());
 
 app.get('/api/fish', (req, res) => {
     console.log(ready);
