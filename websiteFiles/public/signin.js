@@ -15,7 +15,39 @@ function signinButtonClick() {
 	window.location.href = "signin.html";
 }
 
-function login() {
+async function register() {
+	if (!userInput.value) {
+                userInput.classList.add('is-invalid');
+        } else {
+                userInput.classList.remove('is-invalid');
+        }
+        if (!passInput.value) {
+                passInput.classList.add('is-invalid');
+        } else {
+                passInput.classList.remove('is-invalid');
+        }
+        if (!(userInput.value && passInput.value)) {return;}
+
+	try {
+		const result = await fetch('/auth/create', {
+                	method: 'POST',
+                	headers: {'Content-Type': 'application/json'},
+                	body: JSON.stringify({username : userInput.value, password : passInput.value})
+        	});
+		if (result.status == 200) {
+			window.location.href = 'play.html';
+		} else if (result.status == 409) {
+			alert("Username is already taken");
+		} else {
+			alert("Something went wrong - check console");
+			console.log(request);
+		}
+	} catch (err) {
+		console.log(err);
+	}
+}
+
+async function login() {
 	if (!userInput.value) {
 		userInput.classList.add('is-invalid');
 	} else {
@@ -26,30 +58,11 @@ function login() {
 	} else {
 		passInput.classList.remove('is-invalid');
 	}
-	if (!(userInput.value && passInput.value)) {console.log("SDF"); return;}
+	if (!(userInput.value && passInput.value)) {return;}
 
 	//Validate with database here
 	console.log(userInput.value, passInput.value);	
 	test();
-
-	/**if (document.getElementById('flexCheckDefault').checked) {
-		//remembered behaviour
-		localStorage.clear();
-
-		localStorage.setItem('username', userInput.value);
-		localStorage.setItem('password', passInput.value);
-
-		location.href = "play.html";
-	} else {
-		//not remembered
-		//no cache
-		sessionStorage.clear();
-
-                sessionStorage.setItem('username', userInput.value);
-                sessionStorage.setItem('password', passInput.value);
-
-                location.href = "play.html";
-	}**/
 }
 
 async function test() {
