@@ -22,7 +22,7 @@ const bc = require('bcrypt');
 
 //User login and authentication functions
 async function getUser(username) {
-	return logins.findOne({ userID : username });
+	return await logins.findOne({ userID : username });
 }
 
 async function createUser(username, password) {
@@ -36,6 +36,18 @@ async function createUser(username, password) {
 	return user;
 }
 
+async function validateHash(username, password) {
+	const user = await getUser(username);
+	return await bc.compare(password, user.passHash);
+}
+
+async function userExists(givenToken) {
+	if (await logins.findOne({ token : givenToken })) {
+		return true;
+	}
+	return false;
+}
+
 async function createCookie(res, generatedToken) {
 	res.cookie('token', generatedToken, {
 		secure: true,
@@ -44,8 +56,15 @@ async function createCookie(res, generatedToken) {
 	});
 }
 
+async function getUserName(givenToken) {
+	return logins.findOne({ token : givenToken });
+}
+
 module.exports = {
 	getUser,
 	createUser,
-	createCookie
+	createCookie,
+	validateHash,
+	userExists,
+	getUserName
 }

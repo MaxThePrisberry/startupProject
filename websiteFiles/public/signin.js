@@ -60,15 +60,24 @@ async function login() {
 	}
 	if (!(userInput.value && passInput.value)) {return;}
 
-	//Validate with database here
-	console.log(userInput.value, passInput.value);	
-	test();
-}
-
-async function test() {
-	console.log(await fetch('/auth/create', {
-                method: 'POST',
-		headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username : "HELLODHFSLK",password : "THISISAPASSWORD"})
-        }));
+	//Validate with database
+	try {
+		const result = await fetch('/auth/login', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({username : userInput.value, password : passInput.value})
+                });
+                if (result.status == 200) {
+                        window.location.href = 'play.html';
+                } else if (result.status == 400) {
+                        alert("No such user exists.");
+                } else if (result.status == 401) {
+			alert("Incorrect password.");
+		} else {
+                        alert("Something went wrong - check console");
+                        console.log(request);
+                }
+        } catch (err) {
+                console.log(err);
+        }
 }

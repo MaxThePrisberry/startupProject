@@ -64,13 +64,25 @@ waitForOutput(stockfishProcess, 'uciok')
         console.error("Error:", err);
     });
 
-
 app.use(cookieParser());
+
+app.get('/play.html', async (req, res, next) => {
+	console.log(req.cookies['token']);
+	if (!req.cookies['token'] || !await db.userExists(req.cookies['token'])) {
+		res.redirect('/signin.html');
+	} else {
+		next();
+	}
+});
+
+
 //Serving static files (HTML, CSS, JS)
 app.use(express.static('./public'));
 app.use(express.json());
 
+
 app.post('/auth/create', async (req, res) => {
+	console.log("Registration Request");
 	if (await db.getUser(req.body.username)) {
 		res.status(409).send("User already exists");
 	} else {
@@ -81,7 +93,18 @@ app.post('/auth/create', async (req, res) => {
 });
 
 app.post('/auth/login', async (req, res) => {
-
+	console.log("Signin Request");
+	const user = await db.getUser(req.body.username);
+	if (!user) {
+		res.status(400).send("No such user exists");
+	} else {
+		if (await db.validateHash(req.body.username, req.body.password)) {
+			db.createCookie(res, user.token);
+			res.send({ token : user.token });
+		} else {
+			res.status(401).send("Incorrect password");
+		}
+	}
 });
 
 app.get('/api/fish', (req, res) => {
