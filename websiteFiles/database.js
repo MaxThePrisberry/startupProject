@@ -16,7 +16,7 @@ try {
 
 const db = client.db(dbinfo.database);
 const logins = db.collection(dbinfo.loginCollection);
-const leaderboards = db.collection(dbinfo.leaderboardCollection);
+const leaderboard = db.collection(dbinfo.leaderboardCollection);
 const uuid = require('uuid');
 const bc = require('bcrypt');
 
@@ -60,11 +60,31 @@ async function getUserName(givenToken) {
 	return logins.findOne({ token : givenToken });
 }
 
+
+
+//Leaderboard record keeping functions
+function addGame(gdate, gname, gtime) {
+	console.log(gdate, gname, gtime);
+	leaderboard.insertOne({
+		date: gdate,
+		name: gname,
+		time: gtime
+	});
+}
+
+async function getTopGames() {
+	const result = await leaderboard.find().sort({ time: 1 }).limit(10).toArray();
+	console.log(result);
+	return result;
+}
+
 module.exports = {
 	getUser,
 	createUser,
 	createCookie,
 	validateHash,
 	userExists,
-	getUserName
+	getUserName,
+	addGame,
+	getTopGames
 }

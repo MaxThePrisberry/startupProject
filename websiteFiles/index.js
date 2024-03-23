@@ -67,9 +67,16 @@ waitForOutput(stockfishProcess, 'uciok')
 app.use(cookieParser());
 
 app.get('/play.html', async (req, res, next) => {
-	console.log(req.cookies['token']);
 	if (!req.cookies['token'] || !await db.userExists(req.cookies['token'])) {
 		res.redirect('/signin.html');
+	} else {
+		next();
+	}
+});
+
+app.get('/signin.html', async (req, res, next) => {
+	if (req.cookies['token'] && await db.userExists(req.cookies['token'])) {
+		res.redirect('/play.html');
 	} else {
 		next();
 	}
@@ -107,9 +114,29 @@ app.post('/auth/login', async (req, res) => {
 	}
 });
 
+app.post('/auth/signout', (req, res) => {
+	res.clearCookie('token');
+	res.send();
+});
+
 app.get('/auth/whoami', async (req, res) => {
-	const result = await db.getUserName(req.cookies['token']);
-	res.send({ username : result.userID });
+	if (req.cookies['token']) {
+		const result = await db.getUserName(req.cookies['token']);
+		res.send({ username : result.userID });
+	} else {
+		res.send("No token given");
+	}
+});
+
+app.post('/addgame', (req, res) => {
+	db.addGame(req.body.date, req.body.name, req.body.time);
+	console.log(req.body.date, req.body.name, req.body.time);
+	res.send();
+});
+
+app.get('/topgames', async (req, res) => {
+	const games = await db.getTopGames();
+	res.send(games);
 });
 
 app.get('/api/fish', (req, res) => {

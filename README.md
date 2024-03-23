@@ -78,3 +78,10 @@ For this deliverable I enabled functionality of my website through design of my 
 * **Frontend Third-party Interaction** - My frontend calls a third-party service endpoint 'icanhazdadjoke.com' to have my simulation say a dad joke after each successful move.
 * **Backend Service Endpoints** - My backend provides service endpoints - *done* - My backend provides the '/api/fish' endpoint to interact with the customized stockfish engine to play moves at 'my' level.
 * **Frontend/Backend Interaction** - My frontend calls my service endpoints - *done* - My frontend properly interacts with my backend endpoint to play the received move from the engine.
+
+## Login Deliverable
+* **Registration** - Supports new user registration - *done* - New users can register their own username/password combination for future use and game tracking. Data is stored in MongoDB.
+* **Authentication** - Supports existing user authentication - *done* - The signin functionality correctly identifies username/password combinations that are valid and authenticates the user.
+* **MongoDB Storage** - Stores application data in MongoDB - 
+* **Credentials** - Stores and retrieves credentials in MongoDB - *done* - User information is stored securely in MongoDB and is verified and retrieved upon signin.
+* **Authenticated User** - Restricts application functionality based upon authentication - *done* - Access to the actual 'play' functionality redirects unauthorized users to the signin page.
