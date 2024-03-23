@@ -107,6 +107,11 @@ app.post('/auth/login', async (req, res) => {
 	}
 });
 
+app.get('/auth/whoami', async (req, res) => {
+	const result = await db.getUserName(req.cookies['token']);
+	res.send({ username : result.userID });
+});
+
 app.get('/api/fish', (req, res) => {
     console.log(ready);
     if (!req.query.fen) {
