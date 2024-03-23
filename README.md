@@ -82,6 +82,6 @@ For this deliverable I enabled functionality of my website through design of my 
 ## Login Deliverable
 * **Registration** - Supports new user registration - *done* - New users can register their own username/password combination for future use and game tracking. Data is stored in MongoDB.
 * **Authentication** - Supports existing user authentication - *done* - The signin functionality correctly identifies username/password combinations that are valid and authenticates the user.
-* **MongoDB Storage** - Stores application data in MongoDB - 
+* **MongoDB Storage** - Stores application data in MongoDB - *done* - Leaderboard scores are updated opon a win and are reflected on the global leaderboards page across all users using MongoDB.
 * **Credentials** - Stores and retrieves credentials in MongoDB - *done* - User information is stored securely in MongoDB and is verified and retrieved upon signin.
 * **Authenticated User** - Restricts application functionality based upon authentication - *done* - Access to the actual 'play' functionality redirects unauthorized users to the signin page.
