@@ -69,7 +69,9 @@ function endgameCheck() {
 	if (game.in_checkmate()) {
 		alert("Checkmate!");
 		//Add win to database
-		if (game.turn() == 'b') {localStorage.setItem('victory', [new Date(), localStorage.getItem('username'), new Date() - startTime]);}
+		if (game.turn() == 'b') {
+			win();
+		}
 	} else if (game.in_draw()) {
 		
 	} else if (game.in_stalemate()) {
@@ -80,6 +82,23 @@ function endgameCheck() {
 
 	}
 	return gameover;
+}
+
+async function win() {
+	const currentTime = new Date();
+	const uname = (await (await fetch('/auth/whoami')).json()).username;
+	console.log(uname);
+	const result = await fetch('/addgame', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			date: `${currentTime.getMonth() + 1}/${currentTime.getDate()}/${currentTime.getFullYear()}`,
+			name: uname,
+			time: formatMilliseconds(currentTime - startTime)
+		})});
+	console.log("Game added to database.");
 }
 
 function updateTimer() {
