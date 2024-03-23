@@ -17,8 +17,8 @@ try {
 const db = client.db(dbinfo.database);
 const logins = db.collection(dbinfo.loginCollection);
 const leaderboards = db.collection(dbinfo.leaderboardCollection);
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcrypt');
+const uuid = require('uuid');
+const bc = require('bcrypt');
 
 //User login and authentication functions
 async function getUser(username) {
@@ -26,13 +26,13 @@ async function getUser(username) {
 }
 
 async function createUser(username, password) {
-	const passwordHash = await bcrypt.hash(password, 20);
+	const passwordHash = await bc.hash(password, 2);
 	const user = {
 		userID: username,
-		passHash = passwordHash,
-		token = uuid.v4()
+		passHash: passwordHash,
+		token: uuid.v4()
 	};
-	logins.insert(user);
+	logins.insertOne(user);
 	return user;
 }
 
@@ -45,5 +45,7 @@ async function createCookie(res, generatedToken) {
 }
 
 module.exports = {
-	
+	getUser,
+	createUser,
+	createCookie
 }

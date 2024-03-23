@@ -29,8 +29,10 @@ function login() {
 	if (!(userInput.value && passInput.value)) {console.log("SDF"); return;}
 
 	//Validate with database here
+	console.log(userInput.value, passInput.value);	
+	test();
 
-	if (document.getElementById('flexCheckDefault').checked) {
+	/**if (document.getElementById('flexCheckDefault').checked) {
 		//remembered behaviour
 		localStorage.clear();
 
@@ -47,5 +49,13 @@ function login() {
                 sessionStorage.setItem('password', passInput.value);
 
                 location.href = "play.html";
-	}
+	}**/
+}
+
+async function test() {
+	console.log(await fetch('/auth/create', {
+                method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username : "HELLODHFSLK",password : "THISISAPASSWORD"})
+        }));
 }

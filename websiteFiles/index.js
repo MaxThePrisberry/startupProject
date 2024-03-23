@@ -66,9 +66,23 @@ waitForOutput(stockfishProcess, 'uciok')
 
 
 app.use(cookieParser());
-// Serving static files (HTML, CSS, JS)
-app.use(express.static('startup/public'));
+//Serving static files (HTML, CSS, JS)
+app.use(express.static('./public'));
 app.use(express.json());
+
+app.post('/auth/create', async (req, res) => {
+	if (await db.getUser(req.body.username)) {
+		res.status(409).send("User already exists");
+	} else {
+		const user = await db.createUser(req.body.username, req.body.password);
+		db.createCookie(res, user.token);
+		res.send({ token : user.token });
+	}
+});
+
+app.post('/auth/login', async (req, res) => {
+
+});
 
 app.get('/api/fish', (req, res) => {
     console.log(ready);
@@ -110,7 +124,7 @@ app.get('/api/fish', (req, res) => {
 
 
 //Return homepage
-app.use((_req, res) => {
+app.use((req, res) => {
 	res.sendFile('index.html', { root: 'public' });
 });
 
