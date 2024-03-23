@@ -15,8 +15,35 @@ try {
 }
 
 const db = client.db(dbinfo.database);
+const logins = db.collection(dbinfo.loginCollection);
+const leaderboards = db.collection(dbinfo.leaderboardCollection);
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 
+//User login and authentication functions
+async function getUser(username) {
+	return logins.findOne({ userID : username });
+}
 
+async function createUser(username, password) {
+	const passwordHash = await bcrypt.hash(password, 20);
+	const user = {
+		userID: username,
+		passHash = passwordHash,
+		token = uuid.v4()
+	};
+	logins.insert(user);
+	return user;
+}
 
+async function createCookie(res, generatedToken) {
+	res.cookie('token', generatedToken, {
+		secure: true,
+		httpOnly: true,
+		sameSite: 'strict'
+	});
+}
+
+module.exports = {
+	
+}
