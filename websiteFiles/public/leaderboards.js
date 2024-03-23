@@ -21,6 +21,13 @@ async function initialize() {
                         console.log(err);
                 }
         }
+	let newgameres = {
+		date: "Yesterday",
+		name: "Maxwell",
+		time: "0d 5h 2m 12s"
+	}
+
+	fetch('/addgame', {method: 'POST', body: JSON.stringify(newgameres)});
 	fillTable();
 }
 
@@ -45,9 +52,12 @@ function timeToSeconds(timeStr) {
     return 0; // Default to 0 if parsing fails
 }
 
-function fillTable() {
+async function fillTable() {
 	//simulate table data
-	tableData = [["Today", "Your Mom", "0d 2h 3m 15s"], ["Yesterday", "John Johnson", "4d 2h 42m 0s"], ["The day before yesterday", "Tanner Swendsen", "0d 0h 0m 2s"]];
+	//tableData = [["Today", "Your Mom", "0d 2h 3m 15s"], ["Yesterday", "John Johnson", "4d 2h 42m 0s"], ["The day before yesterday", "Tanner Swendsen", "0d 0h 0m 2s"]];
+
+	tableData = await fetch('/topgames');
+	tableData = await tableData.json();
 
 	tableData = tableData.sort((a,b) => (timeToSeconds(a[2]) - timeToSeconds(b[2])));
 
