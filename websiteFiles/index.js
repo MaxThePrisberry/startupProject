@@ -130,7 +130,6 @@ app.get('/auth/whoami', async (req, res) => {
 
 app.post('/addgame', (req, res) => {
 	db.addGame(req.body.date, req.body.name, req.body.time);
-	console.log(req.body.date, req.body.name, req.body.time);
 	res.send();
 });
 
