@@ -1,8 +1,25 @@
 // server.js
 console.log("Starting boot...");
 
+const dbinfo = require('./dbConfig.json');
+const { MongoClient } = require('mongodb');
+const client = new MongoClient(`mongodb+srv://${dbinfo.username}:${dbinfo.password}@${dbinfo.hostname}/?retryWrites=true&w=majority&appName=Cluster0`);
+const db = client.db(dbinfo.database);
+
+async function testConnection() {
+	await client.connect();
+	console.log("Connected to msimul MongoDB database");
+}
+
+try {
+	testConnection();
+} catch(ex) {
+	console.log(`Unable to connect to database because ${ex}`);
+}
+
 const express = require('express');
 const app = express();
+
 const port = 4000;
 
 const { spawn } = require('child_process');
