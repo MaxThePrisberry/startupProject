@@ -4,6 +4,7 @@ async function initialize() {
         if (sessionStorage.getItem('username')) {
                 document.getElementById('usernameSlot').innerText = sessionStorage.getItem('username');
                 document.getElementById('signinButton').innerText = "Sign Out";
+		document.getElementById('signinMenuButton').innerText = "Sign Out";
 		loggedin = true;
         } else {
 		try {
@@ -13,6 +14,7 @@ async function initialize() {
 				if (result != "No token given") {
 					document.getElementById('usernameSlot').innerText = JSON.parse(result).username;
 	       				document.getElementById('signinButton').innerText = "Sign Out";
+					document.getElementById('signinMenuButton').innerText = "Sign Out";
 					sessionStorage.setItem('username', JSON.parse(result).username);
 					loggedin = true;
 				}
