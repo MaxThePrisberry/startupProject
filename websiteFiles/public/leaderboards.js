@@ -21,13 +21,6 @@ async function initialize() {
                         console.log(err);
                 }
         }
-	let newgameres = {
-		date: "Yesterday",
-		name: "Maxwell",
-		time: "0d 5h 2m 12s"
-	}
-
-	fetch('/addgame', {method: 'POST', body: JSON.stringify(newgameres)});
 	fillTable();
 }
 
@@ -59,11 +52,11 @@ async function fillTable() {
 	tableData = await fetch('/topgames');
 	tableData = await tableData.json();
 
-	tableData = tableData.sort((a,b) => (timeToSeconds(a[2]) - timeToSeconds(b[2])));
+	tableData = tableData.sort((a,b) => (timeToSeconds(a.time) - timeToSeconds(b.time)));
 
 	const table = document.getElementById('leadertable');
 
 	tableData.forEach((value) => {
-		table.innerHTML += "<tr><td>" + value[0] + "</td><td>" + value[1] + "</td><td>" + value[2] + "</td></tr>";
+		table.innerHTML += "<tr><td>" + value.date + "</td><td>" + value.name + "</td><td>" + value.time + "</td></tr>";
 	});
 }
