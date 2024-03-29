@@ -7,6 +7,8 @@ let statusCircle = document.getElementById('spinner');
 let startTime = new Date();
 let gameStarted = false;
 
+let username = null;
+
 let loggedin = false;
 
 const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
@@ -21,20 +23,27 @@ socket.onopen = () => {
 }
 
 
+
+function showNotification(message) {
+
+}
+
 async function initialize() {
         if (sessionStorage.getItem('username')) {
                 document.getElementById('usernameSlot').innerText = sessionStorage.getItem('username');
                 document.getElementById('signinButton').innerText = "Sign Out";
                 loggedin = true;
+		acquireUsername();
         } else {
                 try {
                         const res = await fetch('/auth/whoami');
                         if (res.status == 200) {
                                 const result = await res.text();
                                 if (result != "No token given") {
-                                        document.getElementById('usernameSlot').innerText = JSON.parse(result).username;
+					username = JSON.parse(result).username;
+                                        document.getElementById('usernameSlot').innerText = username;
                                         document.getElementById('signinButton').innerText = "Sign Out";
-                                        sessionStorage.setItem('username', JSON.parse(result).username);
+                                        sessionStorage.setItem('username', username);
                                         loggedin = true;
                                 }
                         }
@@ -42,6 +51,28 @@ async function initialize() {
                         console.log(err);
                 }
         }
+}
+
+async function acquireUsername() {
+	try {
+		const res = await fetch('/auth/whoami');
+		if (res.status == 200) {
+			const result = await res.text();
+			if (result != "No token given") {
+				username = JSON.parse(result).username;
+				document.getElementById('usernameSlot').innerText = username;
+				document.getElementById('signinButton').innerText = "Sign Out";
+				sessionStorage.setItem('username', username);
+				loggedin = true;
+			} else {
+				document.getElementById('usernameSlot').innerText = "";
+                		document.getElementById('signinButton').innerText = "Sign In";
+                		loggedin = false;
+			}
+		}
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 function signinButtonClick() {
@@ -83,6 +114,8 @@ function endgameCheck() {
 		//Add win to database
 		if (game.turn() == 'b') {
 			win();
+		} else {
+			
 		}
 	} else if (game.in_draw()) {
 		
@@ -99,7 +132,6 @@ function endgameCheck() {
 async function win() {
 	const currentTime = new Date();
 	const uname = (await (await fetch('/auth/whoami')).json()).username;
-	console.log(uname);
 	const result = await fetch('/addgame', {
 		method: 'POST',
 		headers: {
@@ -131,19 +163,36 @@ function formatMilliseconds(milliseconds) {
 }
 
 async function maxwellMove() {
+	//Visual cues
 	$speechBox.text('Hmm...');
 	statusCircle.classList.remove("breathing");
 	statusCircle.classList.add("spinner-border");
+
+	//Get maxwell's move
 	let response = await fetch('/api/fish?fen=' + game.fen());
 	let data = await response.json();
+
+	//Log to console move and eval
 	console.log(data);
 	console.log(data.ans);
+
+	//Update local game state
 	let move = game.move(data.ans, { sloppy: true });
+
+	//Error checking
 	if (move === null) {console.log("Thinks its invalid");}
+
+	//Update whole board in case of En Passant, etc
 	board.position(game.fen());
+
+	//End the game if necessary
 	endgameCheck();
+
+	//Remove visual cues
 	statusCircle.classList.remove("spinner-border");
         statusCircle.classList.add("breathing");
+
+	//Third party API query for dad joke :)
 	response = await fetch('https://icanhazdadjoke.com/', {headers: {Accept:"application/json"}});
 	data = await response.json();
 	$speechBox.text(data.joke);
