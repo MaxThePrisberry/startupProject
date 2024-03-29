@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
+const { WebSocketServer } = require('ws');
+const wss = new WebSocketServer({ noServer: true });
+
 const port = 4000;
 
 const { spawn } = require('child_process');
@@ -183,6 +186,34 @@ app.use((req, res) => {
 });
 
 // Starting the server
-app.listen(port, () => {
+server = app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
+});
+
+server.on('upgrade', (request, socket, head) => {
+	wss.handleUpgrade(request, socket, head, function done(ws)  {
+		wss.emit('connection', ws, request);
+	});
+});
+
+let connections = [];
+
+wss.on('connection', (ws) => {
+	const connection = { id: connections.length + 1, alive: true, ws: ws };
+	connections.push(connection);
+
+	ws.on('message', (data) => {
+		const strmsg = String.fromCharCode(...data);
+		console.log("Received WebSocket Message: ", strmsg);
+		const msg = JSON.parse(strmsg);
+		if (msg.user && msg.time) {
+			for (connection : connections) {
+				connection.ws.send(`${msg.user} just beat the Maxwell Simulation in ${msg.time}! Go see the leaderboard to see where you stand.`);
+			}
+		}
+		ws.send("All good under the hood. Message received.");
+	});
+
+	ws.on('close', () => {
+	});
 });
