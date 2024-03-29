@@ -9,6 +9,16 @@ let gameStarted = false;
 
 let loggedin = false;
 
+const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+socket.onmessage = (event) => {
+  console.log('received: ', event.data);
+};
+
+socket.send('I am listening');
+
+
 async function initialize() {
         if (sessionStorage.getItem('username')) {
                 document.getElementById('usernameSlot').innerText = sessionStorage.getItem('username');
