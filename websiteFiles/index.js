@@ -207,13 +207,17 @@ wss.on('connection', (ws) => {
 		console.log("Received WebSocket Message: ", strmsg);
 		const msg = JSON.parse(strmsg);
 		if (msg.user && msg.time) {
-			for (connection : connections) {
+			connections.forEach(() => {
 				connection.ws.send(`${msg.user} just beat the Maxwell Simulation in ${msg.time}! Go see the leaderboard to see where you stand.`);
-			}
+			});
+			return true;
 		}
-		ws.send("All good under the hood. Message received.");
+		ws.send("Something went wrong. Check the JSON string sent.");
 	});
 
 	ws.on('close', () => {
+		const index = connections.indexOf(connection);
+		connections.splice(index, 1);
+		console.log(`WebSocket with ID ${connection.id} closed.`);
 	});
 });
