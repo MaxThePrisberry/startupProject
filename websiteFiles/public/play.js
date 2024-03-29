@@ -16,7 +16,9 @@ socket.onmessage = (event) => {
   console.log('received: ', event.data);
 };
 
-socket.send('I am listening');
+socket.onopen = () => {
+	socket.send(JSON.stringify({ user: "wegettinstarted", time: "potato"}));
+}
 
 
 async function initialize() {
