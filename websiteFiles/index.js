@@ -235,4 +235,20 @@ wss.on('connection', (ws) => {
 		connections.splice(index, 1);
 		console.log(`WebSocket with ID ${connection.id} closed.`);
 	});
+
+	ws.on('pong', () => {
+		connection.alive = true;
+	});
 });
+
+setInterval(() => {
+  connections.forEach((conn) => {
+    // Kill any connection that didn't respond to the ping last time
+    if (!conn.alive) {
+      conn.ws.terminate();
+    } else {
+      conn.alive = false;
+      conn.ws.ping();
+    }
+  });
+}, 10000);
