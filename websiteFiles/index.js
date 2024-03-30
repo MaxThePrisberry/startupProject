@@ -209,16 +209,20 @@ wss.on('connection', (ws) => {
 		if (msg.res) {
 			if (msg.res === "win") {
 				if (msg.user && msg.time) {
-					connections.forEach(() => {
-						connection.ws.send(JSON.stringify({ stat: "success", msg: `<strong>${msg.user}</strong> just beat the Maxwell Simulation in <strong>${msg.time}</strong>! Go see the leaderboard to see where you stand.`}));
+					connections.forEach((conn) => {
+						if (conn.id != connection.id) {
+							conn.ws.send(JSON.stringify({ stat: "success", msg: `<strong>${msg.user}</strong> just beat the Maxwell Simulation in <strong>${msg.time}</strong>! Go see the leaderboard to see where you stand.`}));
+						}
 					});
 					return true;
 				}
 			} else if (msg.res === "loss") {
 				if (msg.user) {
-                                        connections.forEach(() => {
-                                                connection.ws.send(JSON.stringify({ stat: "failure", msg: `<strong>${msg.user}</strong> just lost to the Maxwell Simulation in <strong>${msg.time}</strong>. That's...normal.`}));                        
-                                        });
+                                        connections.forEach((conn) => {
+                                                if (conn.id != connection.id) {
+							conn.ws.send(JSON.stringify({ stat: "failure", msg: `<strong>${msg.user}</strong> just lost to the Maxwell Simulation in <strong>${msg.time}</strong>. That's...normal.`}));                        
+                                        	}
+					});
                                         return true;
                                 }
 			}
