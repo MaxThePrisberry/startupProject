@@ -229,6 +229,13 @@ wss.on('connection', (ws) => {
 					});
                                         return true;
                                 }
+			} else if (msg.res === "start" && msg.user) {
+				connections.forEach((conn) => {
+					if (conn.id != connection.id) {
+						conn.ws.send(JSON.stringify({ stat: "regular", msg: `<strong>${msg.user}</strong> just started a game with the Maxwell Simulation.`}));
+					}
+				});
+				return true;
 			}
 		}
 		ws.send(JSON.stringify({error:"Something went wrong. Check the JSON string sent."}));

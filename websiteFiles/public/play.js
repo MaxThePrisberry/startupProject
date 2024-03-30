@@ -87,7 +87,7 @@ function signinButtonClick() {
 function onDragStart(source, piece, curPos, orientation) {
 	console.log(source, piece, curPos, orientation);
 	console.log(piece.search(/^b/));
-	if (!gameStarted) {gameStarted = true; startTime = new Date(); setInterval(updateTimer, 1000);}
+	if (!gameStarted) {gameStarted = true; startTime = new Date(); setInterval(updateTimer, 1000); socket.send(JSON.stringify({ res: "start", user: username }));}
 	if (piece.search(/^b/) != -1) {return false;}
 }
 function onDrop(source, target, piece, newPos, oldPos, orientation) {
