@@ -85,3 +85,9 @@ For this deliverable I enabled functionality of my website through design of my 
 * **MongoDB Storage** - Stores application data in MongoDB - *done* - Leaderboard scores are updated opon a win and are reflected on the global leaderboards page across all users using MongoDB.
 * **Credentials** - Stores and retrieves credentials in MongoDB - *done* - User information is stored securely in MongoDB and is verified and retrieved upon signin.
 * **Authenticated User** - Restricts application functionality based upon authentication - *done* - Access to the actual 'play' functionality redirects unauthorized users to the signin page.
+
+## WebSocket Deliverable
+* **Backend** - Backend listens for WebSocket connection - *done* - The server listens for connections to upgrade to websocket connections and creates them accordingly.
+* **Frontend** - Frontend makes WebSocket connection - *done* - Client javascript establishes a WebSocket with the server and properly listens for messages.
+* **Data Transfer** - Data sent over WebSocket connection - *done* - Information about lost and won games is sent by clients and relayed to all clients by the server.
+* **Display** - WebSocket data displayed in the application interface - *done* - Incoming notifications regarding other users of the Maxwell Simulation are displayed in the notification box with icons.
