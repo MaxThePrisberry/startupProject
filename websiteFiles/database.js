@@ -74,7 +74,6 @@ function addGame(gdate, gname, gtime) {
 
 async function getTopGames() {
 	const result = await leaderboard.find().sort({ time: 1 }).limit(10).toArray();
-	console.log(result);
 	return result;
 }
 
