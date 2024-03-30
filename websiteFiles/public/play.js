@@ -15,11 +15,12 @@ const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
 socket.onmessage = (event) => {
-  console.log('received: ', event.data);
+	const result = JSON.parse(event.data);
+	notification(result.stat, result.msg);
 };
 
 socket.onopen = () => {
-	socket.send(JSON.stringify({ user: "wegettinstarted", time: "potato"}));
+	notification("regular", "You're connected to the server, and will get live updates from anyone playing the Maxwell Simulation.");
 }
 
 
@@ -113,25 +114,29 @@ function endgameCheck() {
 		alert("Checkmate!");
 		//Add win to database
 		if (game.turn() == 'b') {
+			
 			win();
 		} else {
 			
+			lose();
 		}
 	} else if (game.in_draw()) {
 		
+		lose();
 	} else if (game.in_stalemate()) {
-
+		lose();
 	} else if (game.in_threefold_repetition()) {
-
+		lose();
 	} else if (game.insufficient_material()) {
-
+		lose();
 	}
 	return gameover;
 }
 
 async function win() {
 	const currentTime = new Date();
-	const uname = (await (await fetch('/auth/whoami')).json()).username;
+	const timeStr = formatMilliseconds(currentTime - startTime);
+	socket.send(JSON.stringify({ res: "win", user: username, time: timeStr }));
 	const result = await fetch('/addgame', {
 		method: 'POST',
 		headers: {
@@ -139,10 +144,16 @@ async function win() {
 		},
 		body: JSON.stringify({
 			date: `${currentTime.getMonth() + 1}/${currentTime.getDate()}/${currentTime.getFullYear()}`,
-			name: uname,
-			time: formatMilliseconds(currentTime - startTime)
+			name: username,
+			time: timeStr
 		})});
 	console.log("Game added to database.");
+}
+
+function lose() {	
+	const currentTime = new Date();
+        const timeStr = formatMilliseconds(currentTime - startTime);
+	socket.send(JSON.stringify({ res: "loss", user: username, time: timeStr}));
 }
 
 function updateTimer() {
@@ -198,14 +209,24 @@ async function maxwellMove() {
 	$speechBox.text(data.joke);
 }
 
-function notificationSimulation() {
+function notification(type, message) {
 	const notifBox = document.getElementById('notifBox');
 
-	notifBox.innerHTML = '<div class="d-flex flex-row justify-content-start m-2"><div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(0, 0, 0,.2);"><p class="small mb-0">Testing text to have overflow.</p></div></div>' + notifBox.innerHTML;
+	let icontag = "";
+	switch (type) {
+		case "regular":
+			icontag = 'exclamation.svg';
+			break;
+		case "success":
+			icontag = 'check.svg'
+			break;
+		case "failure":
+			icontag = 'cross.svg';
+			break;
+	}
+	notifBox.innerHTML = `<div class="d-flex justify-content-start m-2"><div class="p-3 ms-3 col d-flex" style="border-radius: 15px; background-color: rgba(0, 0, 0,.2);"><img class="float-start m-2" style="width:30px;" src="${icontag}"/><p class="small mb-0">${message}</p></span></div></div>` + notifBox.innerHTML;
 
 }
-
-setInterval(notificationSimulation, 2000);
 
 let config = {
 	position: 'start',

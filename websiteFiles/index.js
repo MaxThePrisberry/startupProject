@@ -206,13 +206,24 @@ wss.on('connection', (ws) => {
 		const strmsg = String.fromCharCode(...data);
 		console.log("Received WebSocket Message: ", strmsg);
 		const msg = JSON.parse(strmsg);
-		if (msg.user && msg.time) {
-			connections.forEach(() => {
-				connection.ws.send(`${msg.user} just beat the Maxwell Simulation in ${msg.time}! Go see the leaderboard to see where you stand.`);
-			});
-			return true;
+		if (msg.res) {
+			if (msg.res === "win") {
+				if (msg.user && msg.time) {
+					connections.forEach(() => {
+						connection.ws.send(JSON.stringify({ stat: "success", msg: `<strong>${msg.user}</strong> just beat the Maxwell Simulation in <strong>${msg.time}</strong>! Go see the leaderboard to see where you stand.`}));
+					});
+					return true;
+				}
+			} else if (msg.res === "loss") {
+				if (msg.user) {
+                                        connections.forEach(() => {
+                                                connection.ws.send(JSON.stringify({ stat: "failure", msg: `<strong>${msg.user}</strong> just lost to the Maxwell Simulation in <strong>${msg.time}</strong>. That's...normal.`}));                        
+                                        });
+                                        return true;
+                                }
+			}
 		}
-		ws.send("Something went wrong. Check the JSON string sent.");
+		ws.send(JSON.stringify({error:"Something went wrong. Check the JSON string sent."}));
 	});
 
 	ws.on('close', () => {
