@@ -125,7 +125,10 @@ app.post('/auth/signout', (req, res) => {
 app.get('/auth/whoami', async (req, res) => {
 	if (req.cookies['token']) {
 		const result = await db.getUserName(req.cookies['token']);
-		res.send({ username : result.userID });
+		if (result) {
+			res.send({ username : result.userID });
+		}
+		res.send("Invalid token");
 	} else {
 		res.send("No token given");
 	}
