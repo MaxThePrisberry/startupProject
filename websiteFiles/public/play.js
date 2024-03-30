@@ -40,7 +40,7 @@ async function initialize() {
                         const res = await fetch('/auth/whoami');
                         if (res.status == 200) {
                                 const result = await res.text();
-                                if (result != "No token given") {
+                                if (result != "No token given" && result != "Invalid token") {
 					username = JSON.parse(result).username;
                                         document.getElementById('usernameSlot').innerText = username;
                                         document.getElementById('signinButton').innerText = "Sign Out";
