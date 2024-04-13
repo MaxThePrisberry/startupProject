@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 let game = new Chess();
 let board;
@@ -30,7 +31,7 @@ function startupBoard() {
 	socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 	socket.onmessage = (event) => {
 		const result = JSON.parse(event.data);
-		notification(result.stat, result.msg);
+		if (result) {notification(result.stat, result.msg);} else {console.log("Undefined socket response");}
 	};
 
 	socket.onopen = () => {
@@ -38,7 +39,7 @@ function startupBoard() {
 	}
 }
 
-async function acquireUsername() {
+async function acquireUsername(onfail) {
         try {
                 const res = await fetch('/auth/whoami');
                 if (res.status == 200) {
@@ -48,6 +49,7 @@ async function acquireUsername() {
                                 sessionStorage.setItem('username', username);
                         } else {
 				alert("Invalid User");
+				onfail();
                         }
                 }
         } catch (err) {
@@ -237,8 +239,13 @@ export function Play() {
 	//function handleNotifs(notices) {
 	//	setNotifs(notices);
 	//}
+	const navigate = useNavigate();
+	function handleFailAuth() {
+		navigate('/signin');
+	}
 	useEffect(() => {
 		startupBoard();
+		acquireUsername(handleFailAuth);
 		let parentBox = document.getElementById('mainContent');
         	if (parentBox) {
 			parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');

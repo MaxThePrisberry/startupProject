@@ -1,8 +1,0 @@
-{
-	"hostname": "cluster0.n7dpp8j.mongodb.net",
-	"username": "serverRequest",
-	"password": "authentication",
-	"database": "msimulData",
-	"loginCollection": "users",
-	"leaderboardCollection": "leaderboard"
-}
