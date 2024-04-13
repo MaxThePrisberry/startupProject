@@ -13,7 +13,7 @@ async function initialize() {
         if (sessionStorage.getItem('username')) {
                 document.getElementById('usernameSlot').innerText = sessionStorage.getItem('username');
                 document.getElementById('signinButton').innerText = "Sign Out";
-                document.getElementById('signinMenuButton').innerText = "Sign Out";
+		if (document.getElementById('signinMenuButton')) {document.getElementById('signinMenuButton').innerText = "Sign Out";}
         } else {
                 try {
                         const res = await fetch('/auth/whoami');
@@ -22,7 +22,7 @@ async function initialize() {
                                 if (result != "No token given" && result != "Invalid token") {
                                         document.getElementById('usernameSlot').innerText = JSON.parse(result).username;
                                         document.getElementById('signinButton').innerText = "Sign Out";
-                                        document.getElementById('signinMenuButton').innerText = "Sign Out";
+                                        if (document.getElementById('signinMenuButton')) {document.getElementById('signinMenuButton').innerText = "Sign Out";}
                                         sessionStorage.setItem('username', JSON.parse(result).username);
                                 }
                         }

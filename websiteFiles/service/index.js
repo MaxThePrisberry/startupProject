@@ -135,12 +135,12 @@ app.get('/auth/whoami', async (req, res) => {
 	}
 });
 
-app.post('/addgame', (req, res) => {
+app.post('/lb/addgame', (req, res) => {
 	db.addGame(req.body.date, req.body.name, req.body.time);
 	res.send();
 });
 
-app.get('/topgames', async (req, res) => {
+app.get('/lb/topgames', async (req, res) => {
 	const games = await db.getTopGames();
 	res.send(games);
 });
