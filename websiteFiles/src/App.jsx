@@ -1,7 +1,12 @@
-import { useState } from 'react'
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { Home } from './Home.jsx';
+import { Play } from './Play.jsx';
+import { Leaderboard } from './Leaderboard.jsx';
+import { Signin } from './Signin.jsx';
+
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
