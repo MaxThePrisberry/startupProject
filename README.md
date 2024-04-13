@@ -91,3 +91,9 @@ For this deliverable I enabled functionality of my website through design of my 
 * **Frontend** - Frontend makes WebSocket connection - *done* - Client javascript establishes a WebSocket with the server and properly listens for messages.
 * **Data Transfer** - Data sent over WebSocket connection - *done* - Information about lost and won games is sent by clients and relayed to all clients by the server.
 * **Display** - WebSocket data displayed in the application interface - *done* - Incoming notifications regarding other users of the Maxwell Simulation are displayed in the notification box with icons.
+
+## React Deliverable
+* **Vite** - Bundled using Vite - *done* - The development and build processes both involved vite, and the live product has gone through the Vite toolchain.
+* **React Components** - Multiple functional React components - *done* - Home, Signin, Play, and the Leaderboard components are all functional and work as intended.
+* **React Router** - React router - *done* - BrowserRouter functionality is built in to the React ported application, and it navigates the pages correctly.
+* **React Hooks** - React hooks - *done* - Hooks are used successfully to update the state of the leaderboard and enable general functionality.
