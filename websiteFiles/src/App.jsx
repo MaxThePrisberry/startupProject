@@ -5,9 +5,6 @@ import { Play } from './Play.jsx';
 import { Leaderboard } from './Leaderboard.jsx';
 import { Signin } from './Signin.jsx';
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
 
 async function initialize() {
         if (sessionStorage.getItem('username')) {
