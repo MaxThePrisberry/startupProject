@@ -9,17 +9,8 @@ let statusCircle;
 let startTime = new Date();
 let gameStarted = false;
 
-const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
-
-socket.onmessage = (event) => {
-        const result = JSON.parse(event.data);
-        notification(result.stat, result.msg);
-};
-
-socket.onopen = () => {
-        notification("regular", "You're connected to the server, and will get live updates from anyone playing the Maxwell Simulation.");
-}
+let protocol;
+let socket;
 
 function startupBoard() {
 	console.log(game.moves());
@@ -35,6 +26,16 @@ function startupBoard() {
 	board = Chessboard('board1', config);
 	$speechBox = $('#txtBubble');
 	statusCircle = document.getElementById('spinner');
+	protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+	socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+	socket.onmessage = (event) => {
+		const result = JSON.parse(event.data);
+		notification(result.stat, result.msg);
+	};
+
+	socket.onopen = () => {
+		notification("regular", "You're connected to the server, and will get live updates from anyone playing the Maxwell Simulation.");
+	}
 }
 
 async function acquireUsername() {
@@ -199,20 +200,24 @@ function notification(type, message) {
 window.onresize = function() {
         if(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) > 600) {
                 let parentBox = document.getElementById('mainContent');
-                parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
-                board.resize();
+                if (parentBox) {parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
+                board.resize();}
         }
 }
 window.onload = function() {
         let parentBox = document.getElementById('mainContent');
-        parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
-        board.resize();
+        if (parentBox) {parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
+        board.resize();}
 }
 
 
 export function Play() {
 	useEffect(() => {
 		startupBoard();
+		let parentBox = document.getElementById('mainContent');
+        if (parentBox) {parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
+        board.resize();}
+
 	}, []);
 	return (
 	<main className="container min-vw-100 h-100 px-2 mx-0 overflow-hidden">

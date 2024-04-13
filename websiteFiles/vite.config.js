@@ -6,11 +6,12 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/auth': 'http://localhost:4000',
-			'/lb': {
+			'/ws': {
 				target: 'http://localhost:4000',
 				ws: true,
 			},
 			'/api': 'http://localhost:4000',
+			'/lb': 'http://localhost:4000',
 		},
 	},
 	plugins: [react()],
