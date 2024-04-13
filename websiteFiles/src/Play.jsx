@@ -227,12 +227,17 @@ window.onload = function() {
 
 
 export function Play() {
+	//const [notifs, setNotifs] = useState([]);
+	//function handleNotifs(notices) {
+	//	setNotifs(notices);
+	//}
 	useEffect(() => {
 		startupBoard();
 		let parentBox = document.getElementById('mainContent');
-        if (parentBox) {parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
-        board.resize();}
-
+        	if (parentBox) {
+			parentBox.style.setProperty('--board-height', Math.min((parentBox.clientHeight - document.getElementById('timer').clientHeight - 26), parentBox.clientWidth) + 'px');
+        		board.resize();
+		}
 	}, []);
 	return (
 	<main className="container min-vw-100 h-100 px-2 mx-0 overflow-hidden">
