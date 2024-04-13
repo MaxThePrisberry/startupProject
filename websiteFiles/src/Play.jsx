@@ -151,9 +151,15 @@ async function maxwellMove() {
         //Get maxwell's move
         let response = await fetch('/api/fish?fen=' + game.fen());
         //let response = await fetch('startup.msimul.click/api/fish?fen=' + game.fen());
-	
-	while (!response || response.status == 503) {
+
+	let attempts = 0;
+	while ((!response || response.status == 503)) {
 		console.log("Move fetch failed. Trying again...");
+		attempts ++;
+		if (attempts > 60) {
+			alert("Failed to find server time. Try again later.");
+			break;
+		}
 		response = await fetch('/api/fish?fen=' + game.fen());
 		await new Promise(resolve => setTimeout(resolve, 1000));
 	}
