@@ -19,9 +19,9 @@ function Header({ page }) {
       </div>
       
       <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><NavLink to="/home" className="nav-link px-2 link-secondary">Home</NavLink></li>
-        <li><NavLink to="/play" className="nav-link px-2">Play</NavLink></li>
-        <li><NavLink to="/leaderboard" className="nav-link px-2">Leaderboard</NavLink></li>
+        <li><NavLink to="/home" className={`nav-link px-2 ${page === 'home' ? 'link-secondary' : ''}`}>Home</NavLink></li>
+        <li><NavLink to="/play" className={`nav-link px-2 ${page === 'play' ? 'link-secondary' : ''}`}>Play</NavLink></li>
+        <li><NavLink to="/leaderboard" className={`nav-link px-2 ${page === 'leaderboard' ? 'link-secondary' : ''}`}>Leaderboard</NavLink></li>
       </ul>
       
       <div className="col-md-3 text-end px-2">
@@ -35,7 +35,17 @@ function Header({ page }) {
 }
 
 function Footer() {
-	
+	return (
+<footer className="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top">
+    <div className="mx-4 col-md-4 d-flex align-items-center">
+      <span className="mb-3 mb-md-0 text-body-secondary">Max Prisbrey - Last touched in 2024</span>
+    </div>
+
+    <ul className="nav mx-4 px-2 col-md-4 justify-content-end list-unstyled d-flex">
+      <li className="ms-3"><a className="text-body-secondary" href="https://github.com/MaxThePrisberry/startupProject" target="_BLANK">Github</a></li>
+    </ul>
+  </footer>	
+);
 }
 
 function App() {
@@ -50,16 +60,7 @@ function App() {
 			<Route path='/signin' element={<><Header page='signin' /><Signin /></>} />
 			<Route path='*' element={<><Header page='home' /><Home /></>} />
 		</Routes>
-
-		<footer className="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top">
-    <div className="mx-4 col-md-4 d-flex align-items-center">
-      <span className="mb-3 mb-md-0 text-body-secondary">Max Prisbrey - Last touched in 2024</span>
-    </div>
-
-    <ul className="nav mx-4 px-2 col-md-4 justify-content-end list-unstyled d-flex">
-      <li className="ms-3"><a className="text-body-secondary" href="https://github.com/MaxThePrisberry/startupProject" target="_BLANK">Github</a></li>
-    </ul>
-  </footer>
+		<Footer />
 		</BrowserRouter>
 	);
 }
