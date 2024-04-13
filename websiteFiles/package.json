@@ -2,7 +2,6 @@
   "name": "websitefiles",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,11 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "express": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "uid": "^2.0.2"
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
