@@ -152,6 +152,12 @@ async function maxwellMove() {
         let response = await fetch('/api/fish?fen=' + game.fen());
         //let response = await fetch('startup.msimul.click/api/fish?fen=' + game.fen());
 	
+	while (!response || response.status == 503) {
+		console.log("Move fetch failed. Trying again...");
+		response = await fetch('/api/fish?fen=' + game.fen());
+		await new Promise(resolve => setTimeout(resolve, 1000));
+	}
+
 	let data = await response.json();
 
         //Log to console move and eval
@@ -162,7 +168,16 @@ async function maxwellMove() {
         let move = game.move(data.ans, { sloppy: true });
 
         //Error checking
-        if (move === null) {console.log("Thinks its invalid");}
+        if (move === null) {
+		console.log("Thinks its invalid. Requesting new move...");
+		while (move === null) {
+			response = await fetch('/api/fish?fen=' + game.fen());
+			data = await response.json();
+			console.log(data);
+        		console.log(data.ans);
+			move = game.move(data.ans, { sloppy: true });
+		}
+	}
 
         //Update whole board in case of En Passant, etc
         board.position(game.fen());
