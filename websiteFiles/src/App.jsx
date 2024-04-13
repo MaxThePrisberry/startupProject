@@ -1,5 +1,5 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Home } from './Home.jsx';
 import { Play } from './Play.jsx';
 import { Leaderboard } from './Leaderboard.jsx';
@@ -7,6 +7,37 @@ import { Signin } from './Signin.jsx';
 
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
+
+async function initialize() {
+        if (sessionStorage.getItem('username')) {
+                document.getElementById('usernameSlot').innerText = sessionStorage.getItem('username');
+                document.getElementById('signinButton').innerText = "Sign Out";
+                document.getElementById('signinMenuButton').innerText = "Sign Out";
+        } else {
+                try {
+                        const res = await fetch('/auth/whoami');
+                        if (res.status == 200) {
+                                const result = await res.text();
+                                if (result != "No token given" && result != "Invalid token") {
+                                        document.getElementById('usernameSlot').innerText = JSON.parse(result).username;
+                                        document.getElementById('signinButton').innerText = "Sign Out";
+                                        document.getElementById('signinMenuButton').innerText = "Sign Out";
+                                        sessionStorage.setItem('username', JSON.parse(result).username);
+                                }
+                        }
+                } catch (err) {
+                        console.log(err);
+                }
+        }
+}
+
+function signinButtonClick() {
+	sessionStorage.removeItem('username');
+	fetch('/auth/signout', {method: 'POST'});
+	document.getElementById('usernameSlot').innerText = "";
+	document.getElementById('signinButton').innerText = "Sign In";
+}
 
 function Header({ page }) {
 	return (
@@ -27,7 +58,7 @@ function Header({ page }) {
       <div className="col-md-3 text-end px-2">
         <span className="align-items-center m-3" id="usernameSlot"></span>
 	<NavLink to="/signin">
-        <button id="signinButton" type="button" className="btn btn-outline-primary me-2">Login</button>
+        <button onClick={signinButtonClick} id="signinButton" type="button" className="btn btn-outline-primary me-2">Login</button>
         </NavLink>
 	</div>
     </header>
@@ -49,8 +80,9 @@ function Footer() {
 }
 
 function App() {
-	const [page, setPage] = useState('home');
-
+	useEffect(() => {
+		initialize();
+	}, []);
 	return (
 		<BrowserRouter>
 		<Routes>
