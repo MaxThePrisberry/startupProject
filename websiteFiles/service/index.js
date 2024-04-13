@@ -153,7 +153,7 @@ app.get('/api/fish', (req, res) => {
         const fen = req.query.fen;
         stockfishProcess.stdin.write('ucinewgame\n');
         stockfishProcess.stdin.write('position fen ' + fen + '\n');
-        stockfishProcess.stdin.write('go depth 10\n');
+        stockfishProcess.stdin.write('go depth 14\n');
         
 	// Wait for output until ready
         waitForOutput(stockfishProcess, 'bestmove')
